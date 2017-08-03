@@ -1,0 +1,74 @@
+[CmdletBinding()]
+Param(
+[Parameter(Mandatory=$True)]
+[string] $BuildNumber,
+
+[Parameter(Mandatory=$True)]
+[string] $FileLocation
+)
+
+
+if(test-path $FileLocation) {remove-item $FileLocation}
+
+new-item $FileLocation -type file
+
+$JSONString="{" | add-content $FileLocation
+$BuildNumberString='"BuildNumber" : "' + $BuildNumber + '"' |add-content $FileLocation
+$JSONString="}" | add-content $FileLocation
+
+
+
+BuildVersionDataBagFile.ps1 -BuildNumber:"1.20.1" -FileLocation:"D:/learn/chef-repo/BuildVersionNumber.json"
+
+
+knife winrm serverIP -m "chef-client --runlist 'recipe[getgc]'" -x "Domain\XXX" -P 'XXXX'
+
+knife winrm serverIP -m "chef-client --runlist 'recipe[deploygc]'" -x "Domain\XXX" -P 'XXXX'
+
+knife winrm serverIP -m "chef-client --runlist 'recipe[deploygc]'" -x "Domain\XXX" -P 'XXXX'
+
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -file %WORKSPACE%\%BuildFolder%\BuildNumberDataBag.ps1 -BuildNumber:${FullVersion} -FileLocation:%WORKSPACE%/BuildNumberDataBagFileName%
+
+knife -s computerip -m "chef-client --local-mode --runlist 'recipe[getgc]'"
+
+chef shell-init powershell | Invoke-Expression
+
+databag should have id indicatign the name of the databag
+
+knife  data bag from file deploymsi "D:\\Deploymsi.json" -c D:\\chef-starter\\chef-repo\\.chef\\knife.rb
+
+knife  data bag from file giftcard D:\\JenkinsSlave\\workspace\\10_Stored_Value\\GiftCard\\BuildNumber.json -c D:\\chef-starter\\chef-repo\\.chef\\knife.rb
+
+setx path "%path%;c:\directoryPath"
+knife winrm computerip -m  "data bag from file giftcard D:\\JenkinsSlave\\workspace\\10_Stored_Value\\GiftCard\\BuildNumber.json"  -x "Domain/sss" -P 'xxxx' -m "data bag from file giftcard D:\\JenkinsSlave\\workspace\\10_Stored_Value\\GiftCard\\BuildNumber.json"
+
+
+C:\GiftCard-1.0.365\DeliveryCommon\Deploy\Deploy-MSI.ps1 -msi_dir:"C:\GiftCard-1.0.365\Code\" -targetEnvironment:"TEST" -env_dir:"C:\GiftCard-1.0.365\Config\" -warmupScript:"C:\GiftCard-1.0.365\Scripts\SmokeTest-NGCGiftCard.ps1" -BeVerbose:"1" -WaitSecondsAfterDisablingProbe:"25" -UseHeartbeatService:"0"
+\
+ knife winrm computerIP -m 'chef-client --runlist '\''recipe[deploy_msi::ScheduleTask]'\'' -j https://username:****@nexus.org/nexus/service/local/repositories/10_Stored_Value_Points/content/service/local/artifact/SchemaManagement.CodeAttributes/1.0.387/SchemaManagement.CodeAttributes-1.0.387.json' -x 'domain\xxxx' -P xxxx
+
+  knife winrm omputerIP -m 'chef-client --runlist 'recipe[deploy_msi::ScheduleTask]''
+
+-------working commands
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -file C:\ArtefactFile\DeliveryCommon\Build\DeployMSIDataBag.ps1 -powershellscript:"C:\\ArtefactFile\\DeliveryCommon\\Deploy\\Deploy-MSI.ps1" -msi_dir:"C:\\ArtefactFile\\Code\\" -targetEnvironment:"PPE" -env_dir:"C:\\ArtefactFile\\Config\\" -warmupScript:"C:\\ArtefactFile\\Scripts\\SmokeTest-NGCGiftCard.ps1" -BeVerbose:"1" -WaitSecondsAfterDisablingProbe:"25" -UseHeartbeatService:"0" -FileLocation:"D:\\Deploymsi.json" -Id:"deploymsi"
+
+
+powershell.exe -ExecutionPolicy Bypass -NoLogo -NonInteractive -NoProfile -WindowStyle Hidden -command knife  data bag from file deploymsi "D:\\Deploymsi.json" -c %KnifeConfiguration%
+
+knife search node '*:NGCAPPQA*'
+
+knife bootstrap windows winrm computerIP --winrm-user Domain\xxx --winrm-password xxxx --node-name TVMYGDCWSVAP01 --msi-url https://msiURL --node-ssl-verify-mode none
+
+
+knife bootstrap windows winrm computerIP --winrm-user Domain\xxx --winrm-password xxxx --node-name NGCAPPQA --msi-url https://msiURL --node-ssl-verify-mode none
+
+winrm invoke Restore winrm/Config -- to reset winrm cache
+
+
+knife[:editor] = "notepad" -- add this line in knife.rb file to create environments
+knife create environemnt qa_test
+
+knife vault create secrets qaAppPoolPass -M client -A "de63,vg18,sj03" -S ‘name:*’  --json D:/vaut_json/qaAppPoolPass.json 
+
+
+knife vault create secrets nexusPass -M client -A "de63,vg18,sj03" -S ‘name:*’  --json D:/vaut_json/nexusPass.json
